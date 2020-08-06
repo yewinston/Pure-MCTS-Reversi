@@ -20,7 +20,7 @@ void set_game() {
     int game_choice = 0;
     string user_input;
 
-    cout << "Reversi - 310 Final Project\nMarian Nguyen (@sfu.ca), Winston Ye (winstony@sfu.ca)\n";
+    cout << "Reversi - 310 Final Project\nMarian Nguyen (mna68@sfu.ca), Winston Ye (winstony@sfu.ca)\n";
     while(game_choice == 0) {
         cout << "Enter the number corresponding to the gamemode you wish to start:\n";
         cout << "\t1. Play against an AI without heuristics\n" << "\t2. Play against an AI with heuristics\n" << "\t3. Simulate a game (heuristic AI vs no heuristic AI)\n\n";
@@ -31,7 +31,19 @@ void set_game() {
             game_choice = stoi(user_input);
             if((game_choice < 4) && (game_choice > 0)){
                 if(game_choice == 1){
-                    cout << "AI" << endl;
+
+                    cout << "Would you like to go first? (Y/N) ";
+                    cin >> user_input;
+                    if (user_input == "Y" | user_input == "y")
+                        cout << "Player wants to go first" << endl;
+                    else if (user_input == "N" | user_input == "n")
+                        cout << "Player wants to go second" << endl;
+                    else {
+                        // cout << "Invalid Input.." << endl;
+                        // cout << "Would you like to go first? (Y/N) ";
+                        // cin >> user_input;
+                    }
+                    
                 }
                 else if(game_choice == 2){
                     cout << "harder AI" << endl;
