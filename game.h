@@ -39,7 +39,6 @@ class Game {
 
         // prints score and the board
         void print_status();
-        
 };
 
 #endif
