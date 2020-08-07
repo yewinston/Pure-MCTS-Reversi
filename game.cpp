@@ -5,7 +5,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#include "board.h"
 #include "game.h"
+
+using namespace std;
 
 bool is_number(const string& s) {
     string::const_iterator it = s.begin();
@@ -16,7 +19,7 @@ bool is_number(const string& s) {
 // start game: do you want to play against a bot
 // if yes -> coin flip: who goes first
 // set players to colours accordingly
-void set_game() {
+void Game::set_game() {
     int game_choice = 0;
     string user_input;
 
@@ -65,37 +68,39 @@ void set_game() {
 
 // sim_game - simulate game against 2 bots
 // go_first - does player want to go first?
-void start_game(bool sim_game, bool go_first) { 
+void Game::start_game(bool sim_game, bool go_first) { 
 
 }
 
-
-bool check_end() {
-    return 0;
+bool Game::check_end(Board the_board) {
+    vector<int> moves_left = the_board.valid_moves();
+    
+    if(moves_left.size() == 0){
+        return true;
+    }
+    return false;
 }
 
-void print_score() {
-
+void Game::print_score(Board the_board) {
+    vector<int> scores = the_board.get_score();
+    cout << "Black score (X): " << scores[0] << endl;
+    cout << "White score (O): " << scores[1] << endl;
 }
 
 // player is asked what move they want to make
-void move_input() {
+void Game::move_input() {
 
 }
 
 // parses user input and determines if move is valid
 // return true if valid
-bool is_valid_move(vector<int> position) {
+bool Game::is_valid_move(vector<int> position) {
     return 0;
 }
 
 // prints score and the board
-void print_status() {
-    
-}
-
-
-int main(){
-    set_game();
-    return 0;
+void Game::print_status(Board the_board) {
+    print_score(the_board);
+    the_board.print_board();
+    cout << endl;
 }

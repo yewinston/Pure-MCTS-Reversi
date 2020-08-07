@@ -1,5 +1,5 @@
-board:
-	g++ -o board board.cpp
+reversi:
+	g++ board.cpp game.cpp reversi.cpp -o reversi
 
-game:
-	g++ -o game game.cpp
+clean:
+	rm -f reversi.o

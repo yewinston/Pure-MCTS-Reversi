@@ -4,13 +4,17 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 class Board{
     private:
-
+        std::vector<std::vector<int>> game_board;
+        int black_score;
+        int white_score;
     public:
-        vector<vector<int>> board;
+        // Default constructor
+        Board();
+
+        // Parameterized Constructor 
+        Board(std::vector<std::vector<int>> new_board, int white_score, int black_score);
 
         void print_board();
 
@@ -19,15 +23,14 @@ class Board{
 
         // returns all valid moves
         // [ [x1, y2], [x2, y2], ... ,[xn, yn] ] 
-        vector<int> valid_moves();
+        std::vector<int> valid_moves();
 
         // [black score, white score]
-        vector<int> get_score();
+        std::vector<int> get_score();
 
         int check_victory();
 
-        void make_move(int player, vector<int> position);
-        
+        void make_move(int player, std::vector<int> position);
 };
 
 #endif

@@ -7,8 +7,6 @@
 #include "board.h"
 #include "reversibot.h"
 
-using namespace std;
-
 class Game {
     private:
         // 1 - black,  2 - white, 0 - empty
@@ -26,19 +24,19 @@ class Game {
         // go_first - does player want to go first?
         void start_game(bool sim_game, bool go_first);
         
-        bool check_end();
+        bool check_end(Board the_board);
 
-        void print_score();
+        void print_score(Board the_board);
 
         // player is asked what move they want to make
         void move_input();
 
         // parses user input and determines if move is valid
         // return true if valid
-        bool is_valid_move(vector<int> position);
+        bool is_valid_move(std::vector<int> position);
 
         // prints score and the board
-        void print_status();
+        void print_status(Board the_board);
 };
 
 #endif

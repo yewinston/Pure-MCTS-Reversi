@@ -1,51 +1,72 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
 #include "board.h"
 
 using namespace std;
 
-int print_board() {
-    // vector<vector<int>> board { {0, 0, 0, 0, 0, 0, 0, 0 }, 
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 } };
+// Default constructor
+Board::Board(){
+    cout << "Default board being made\n";
+    vector<vector<int>> new_board({{0, 0, 0, 0, 0, 0, 0, 0 }, 
+                                    {0, 0, 0, 0, 0, 0, 0, 0 },
+                                    {0, 0, 0, 0, 0, 0, 0, 0 },
+                                    {0, 0, 0, 1, 2, 0, 0, 0 },
+                                    {0, 0, 0, 2, 1, 0, 0, 0 },
+                                    {0, 0, 0, 0, 0, 0, 0, 0 },
+                                    {0, 0, 0, 0, 0, 0, 0, 0 },
+                                    {0, 0, 0, 0, 0, 0, 0, 0 } });
+    game_board = new_board;
+    black_score = 0;
+    white_score = 0;
+}
 
-    // for (int i = 0; i < board.size(); i++) { 
-    //     for (int j = 0; j < board[i].size(); j++)
-    //         cout << board[i][j] << "";
-    //     cout << endl;
-    // }
+Board::Board(vector<vector<int>> new_board, int w_score, int b_score){
+    cout << "Using a pre-made board\n";
+    game_board = new_board;
+    white_score = w_score;
+    black_score = b_score;
+}
+
+void Board::print_board() {
     int n = 8; 
-    int m = 8; 
-  
-    // Create a vector containing n 
-    //vectors of size m.  
-    vector<vector<int> > board( n , vector<int> (m));  
+    int m = 8;
+
+    bool debug = false;
 
     cout << "\n    A   B   C   D   E   F   G   H" << endl;
     for (int i = 0; i < n; i++) { 
-        cout<<"----------------------------------- "<<endl;
-        cout << "\n" << i << " ";
+        cout <<"   -------------------------------- "<< endl;
+        cout << i << " ";
         
-        for (int j = 0; j < m; j++){ 
-            cout<< "| " << board[i][j]<< " "; 
-        } 
-        cout<< "| \n"; 
-        
+        for (int j = 0; j < m; j++) {
+            if(debug){
+                cout << "| " << game_board[i][j] << " ";
+            }
+            else{
+                if(game_board[i][j] == 0){
+                    cout << "|   ";
+                }
+                else if(game_board[i][j] == 1){
+                    cout << "| X ";
+                }
+                else if(game_board[i][j] == 2){
+                    cout << "| O ";
+                }
+            }
+        }
+        cout << "| \n"; 
     } 
-    cout<<"----------------------------------- "<<endl;
-  
-return 0; 
+    cout <<"   -------------------------------- " << endl;
 } 
 
-
-
-int main(){
-    print_board();
-    return 0;
+vector<int> Board::valid_moves() {
+    vector<int> valid;
+    return valid;
 }
+
+vector<int> Board::get_score() {
+    vector<int> scores;
+    return scores;
+};
