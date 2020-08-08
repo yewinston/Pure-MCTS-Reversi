@@ -24,7 +24,7 @@ class Game {
         // go_first - does player want to go first?
         void start_game(bool sim_game, bool go_first);
         
-        bool check_end(Board the_board);
+        bool check_end();
 
         void print_score(Board the_board);
 
@@ -33,10 +33,10 @@ class Game {
 
         // parses user input and determines if move is valid
         // return true if valid
-        bool is_valid_move(std::vector<int> position);
+        bool move_validate(std::vector<int> position);
 
         // prints score and the board
-        void print_status(Board the_board);
+        void print_status();
 };
 
 #endif

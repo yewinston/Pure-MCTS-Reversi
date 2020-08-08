@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -72,8 +73,8 @@ void Game::start_game(bool sim_game, bool go_first) {
 
 }
 
-bool Game::check_end(Board the_board) {
-    vector<int> moves_left = the_board.valid_moves();
+bool Game::check_end() {
+    vector<vector<int>> moves_left = game_board.valid_moves(turn);
     
     if(moves_left.size() == 0){
         return true;
@@ -89,18 +90,89 @@ void Game::print_score(Board the_board) {
 
 // player is asked what move they want to make
 void Game::move_input() {
+    string user_input;
+    vector<char> valid_alpha{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
+    bool valid_input = false;
+
+    cout << "Valid moves: " << endl;
+    cout << "It's your turn! Type a coordiante in the format '[A-H][0-7]':" << endl;
+    
+    // parse user_input;
+    while(!valid_input){
+        cin >> user_input;
+
+        // check if input is correct length
+        if(user_input.size() != 2){
+            cout << "Error: expected input of length 2, received input of length " << user_input.size() << endl;
+        }
+        
+        // check if first character is alphabetical
+        else if(!isalpha(user_input[0])){
+            cout << "Error: first character '" << user_input[0] << "' is not alphabetical." << endl;
+        }
+        // if first character is alphabetical, change it to uppercase
+        else{
+            user_input[0] = toupper(user_input[0]);
+            vector<char>::iterator find_char;
+
+            find_char = find(valid_alpha.begin(), valid_alpha.end(), user_input[0]);
+
+            // if the first character is found within our valid_alpha vector
+            if(find_char != valid_alpha.end()){
+                char test_num = user_input[1];
+                if(isdigit(test_num)){
+                    int y_pos = (test_num - '0') % 48;
+                    if((y_pos >= 0) && (y_pos < 8)){
+                        //cout << "valid input! X:" << find_char - valid_alpha.begin() << " Y: " << y_pos << endl;
+                        
+                        int x_pos = find_char - valid_alpha.begin();
+                        vector<int> position{x_pos, y_pos};
+
+                        bool valid_move = move_validate(position);
+                        
+                        if(valid_move){
+                            game_board.make_move(1, position);
+                            valid_input = true;
+                        }
+                        else{
+                            cout << "Error: invalid position" << endl;
+                        }
+                    }
+                    else{
+                        cout << "Error: second character '" << user_input[1] << "' is not in range (0-7)" << endl;
+                    }
+                }
+                else{
+                    cout << "Error: second character '" << user_input[1] << "' is not a digit" << endl;
+                }
+            }
+            else{
+                cout << "Error: first character '" << user_input[0] << "' is not in alphabet range of [A-H]." << endl;
+            }
+        }
+    }
 }
 
 // parses user input and determines if move is valid
 // return true if valid
-bool Game::is_valid_move(vector<int> position) {
-    return 0;
+bool Game::move_validate(vector<int> position) {
+    vector<vector<int>> valid_moves = game_board.valid_moves(1);
+
+    for(int i = 0; i < valid_moves.size(); i++){
+        if(valid_moves[i][0] == position[0]){
+            if(valid_moves[i][1] == position[1]){
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 // prints score and the board
-void Game::print_status(Board the_board) {
-    print_score(the_board);
-    the_board.print_board();
+void Game::print_status() {
+    // print_score(the_board);
+    game_board.print_board();
     cout << endl;
 }
