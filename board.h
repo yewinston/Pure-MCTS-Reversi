@@ -40,6 +40,8 @@ class Board{
         // [black score, white score]
         std::vector<int> get_score();
 
+        void update_scores();
+
         int check_victory();
 };
 

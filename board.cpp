@@ -217,9 +217,42 @@ bool Board::flip_line(int player, int delta_x, int delta_y, int x_start, int y_s
     }
 }
 
-
-
 vector<int> Board::get_score() {
-    vector<int> scores;
+    vector<int> scores{black_score, white_score};
     return scores;
 };
+
+void Board::update_scores() {
+    int b_score = 0;
+    int w_score = 0;
+
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            if(game_board[i][j] == 1){
+                b_score += 1;
+            }
+            else if(game_board[i][j] == 2){
+                w_score += 1;
+            }
+        }
+    }
+    black_score = b_score;
+    white_score = w_score;
+}
+
+int Board::check_victory(){
+    update_scores();
+
+    vector<vector<int>> b_moves = valid_moves(1);
+    vector<vector<int>> w_moves = valid_moves(2);
+    
+    if((b_moves.size() == 0)&&(w_moves.size() == 0)){
+        if(black_score > white_score){
+            return 1;
+        }
+        else{
+            return 2;
+        }
+    }
+    return 0;
+}
