@@ -25,6 +25,10 @@ class Board{
 
         bool check_valid_line(int player, int delta_x, int delta_y, int x_start, int y_start);
 
+        void flip_tiles(int player, std::vector<int> position);
+
+        bool flip_line(int player, int delta_x, int delta_y, int x_start, int y_start);
+
         // returns all valid moves
         // [ [x1, y2], [x2, y2], ... ,[xn, yn] ] 
         std::vector<std::vector<int>> valid_moves(int player);

@@ -133,6 +133,7 @@ void Game::move_input() {
                         
                         if(valid_move){
                             game_board.make_move(1, position);
+                            game_board.flip_tiles(1, position);
                             valid_input = true;
                         }
                         else{

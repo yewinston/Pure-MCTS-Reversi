@@ -171,6 +171,52 @@ void Board::make_move(int player, vector<int> position){
     return;
 }
 
+void Board::flip_tiles(int player, vector<int> position) {
+    int x = position[0];
+    int y = position[1];
+
+    flip_line(player, -1, -1, y, x);
+    flip_line(player, -1, 0, y, x);
+    flip_line(player, -1, 1, y, x);
+
+    flip_line(player, 0, -1, y, x);
+    flip_line(player, 0, 1, y, x);
+
+    flip_line(player, 1, -1, y, x);
+    flip_line(player, 1, 0, y, x);
+    flip_line(player, 1, 1, y, x);
+
+    return;
+}
+
+bool Board::flip_line(int player, int delta_x, int delta_y, int x_start, int y_start) {
+
+    if ((x_start + delta_x < 0) || (x_start + delta_x > 7)){
+        return false;
+    }
+
+    if ((y_start + delta_y < 0) || (y_start + delta_y > 7)){
+        return false;
+    }
+
+    if (game_board[x_start + delta_x][y_start + delta_y] == 0) {
+        return false;
+    }
+
+    if (game_board[x_start + delta_x][y_start + delta_y] == player) {
+        return true;
+    }
+    else {
+        if (flip_line(player, delta_x, delta_y, x_start + delta_x, y_start + delta_y)){
+            game_board[x_start + delta_x][y_start + delta_y] = player;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 
 
 vector<int> Board::get_score() {
