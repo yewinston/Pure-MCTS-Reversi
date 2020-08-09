@@ -16,7 +16,7 @@ class Board{
         // Parameterized Constructor 
         Board(std::vector<std::vector<int>> new_board, int b_score, int w_score);
 
-        void print_board();
+        void print_board(int player);
 
         // 1 - black, 2 - white
         int whos_turn();

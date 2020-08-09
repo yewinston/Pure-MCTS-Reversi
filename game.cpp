@@ -11,6 +11,11 @@
 
 using namespace std;
 
+// Default constructor
+Game::Game(){
+    turn = 1;
+}
+
 bool is_number(const string& s) {
     string::const_iterator it = s.begin();
     while (it != s.end() && isdigit(*it)) ++it;
@@ -88,6 +93,15 @@ void Game::print_score(Board the_board) {
     cout << "White score (O): " << scores[1] << endl;
 }
 
+void Game::flip_turn(){
+    if(turn == 1){
+        turn = 2;
+    }
+    else{
+        turn = 1;
+    }
+}
+
 // player is asked what move they want to make
 void Game::move_input() {
     string user_input;
@@ -134,6 +148,7 @@ void Game::move_input() {
                         if(valid_move){
                             game_board.make_move(1, position);
                             game_board.flip_tiles(1, position);
+                            flip_turn();
                             valid_input = true;
                         }
                         else{
@@ -174,6 +189,6 @@ bool Game::move_validate(vector<int> position) {
 // prints score and the board
 void Game::print_status() {
     // print_score(the_board);
-    game_board.print_board();
+    game_board.print_board(turn);
     cout << endl;
 }

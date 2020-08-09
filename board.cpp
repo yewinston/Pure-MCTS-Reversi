@@ -12,7 +12,7 @@ Board::Board(){
     // X = columns
     // Y = rows
     
-    vector<vector<int>> new_board({{0, 0, 0, 0, 0, 0, 0, 0 }, 
+    vector<vector<int>> new_board({ {0, 0, 0, 0, 0, 0, 0, 0 }, 
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
                                     {0, 0, 0, 1, 2, 0, 0, 0 },
@@ -20,14 +20,6 @@ Board::Board(){
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
                                     {0, 0, 0, 0, 0, 0, 0, 0 } });
-    // vector<vector<int>> new_board({{0, 0, 0, 0, 0, 0, 0, 0 }, 
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 2, 1, 0, 0, 0 },
-    //                             {0, 0, 2, 1, 2, 0, 0, 0 },
-    //                             {0, 0, 2, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 2, 0, 0, 0, 0, 0 },
-    //                             {0, 0, 0, 0, 0, 0, 0, 0 } });
     game_board = new_board;
     black_score = 0;
     white_score = 0;
@@ -40,27 +32,39 @@ Board::Board(vector<vector<int>> new_board, int b_score, int w_score){
     black_score = b_score;
 }
 
-void Board::print_board() {
+void Board::print_board(int player) {
     int n = 8; 
-    int m = 8;
 
-    bool debug = true;
+    bool debug = false;
 
     cout << "\n    A   B   C   D   E   F   G   H" << endl;
     cout << "\n    0   1   2   3   4   5   6   7" << endl;
+    
+    vector<vector<int>> moves = valid_moves(player);
+
+    vector<vector<char>> moves_board(n, vector<char>(n, '0'));
+
+    for(int i = 0; i < moves.size(); i++){
+        moves_board[moves[i][1]][moves[i][0]] = '#';
+    }
 
     for (int i = 0; i < n; i++) { 
-        cout <<"   -------------------------------- "<< endl;
+        cout << "   -------------------------------- "<< endl;
         cout << i << " ";
         
-        for (int j = 0; j < m; j++) {
+        for (int j = 0; j < n; j++) {
             if(debug){
                 cout << "| " << game_board[i][j] << " ";
             }
             else{
-                if(game_board[i][j] == 0){
+                if(moves_board[i][j] == '#'){
+                    cout << "| * ";
+                }
+
+                else if(game_board[i][j] == 0){
                     cout << "|   ";
                 }
+
                 else if(game_board[i][j] == 1){
                     cout << "| X ";
                 }
@@ -71,7 +75,7 @@ void Board::print_board() {
         }
         cout << "| \n"; 
     } 
-    cout <<"   -------------------------------- " << endl;
+    cout << "   -------------------------------- " << endl;
 } 
 
 bool Board::check_valid_line(int player, int delta_x, int delta_y, int x_start, int y_start){
@@ -127,8 +131,7 @@ bool Board::is_valid_move(int player, int delta_x, int delta_y, int x_start, int
 }
 
 // returns all valid moves
-// [ [x1, y2], [x2, y2], ... ,[xn, yn] ] 
-// new_game.legal_moves = valid_moves('1/2 player', board)
+// [ [x1, y2], [x2, y2], ... ,[xn, yn] ]
 vector<vector<int>> Board::valid_moves(int player) {
     vector<vector<int>> valid;
 
@@ -162,12 +165,9 @@ void Board::make_move(int player, vector<int> position){
     // TODO: NEEDS ERROR CHECKING
 
     cout << "player number is: " << player << endl;
-    cout << " x: " << position[0] << "y: " << position[1] << endl;
+    cout << "x: " << position[0] << " y: " << position[1] << endl;
 
     game_board[position[1]][position[0]] = player;
-
-    cout << game_board[position[1]][position[0]] << endl;
-
     return;
 }
 

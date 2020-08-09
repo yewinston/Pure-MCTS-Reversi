@@ -15,6 +15,8 @@ class Game {
         Board game_board;
 
     public:
+        Game();
+
         // start game: do you want to play against a bot
         // if yes -> coin flip: who goes first
         // set players to colours accordingly
@@ -27,6 +29,9 @@ class Game {
         bool check_end();
 
         void print_score(Board the_board);
+
+        // changes turn order
+        void flip_turn();
 
         // player is asked what move they want to make
         void move_input();
