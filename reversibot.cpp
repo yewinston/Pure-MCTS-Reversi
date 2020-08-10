@@ -74,10 +74,59 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
         for(int k = 0; k < result.size(); k++){
             cout << "X: " << result[k][0] << " Y:" << result[k][1] << endl;
             cout << "Wins: " << result[k][2] << ", Losses: " << result[k][3] << ", Ties: " << result[k][4] << endl;
+
         }
+        for (int i = 0; i < result.size(); i++) {
+            vector<int> best_move;
+            best_move.push_back(result[i][2]);
+            for (int k = i + 1; k < result.size(); k++) {
+                if (result[i][2] > result[k][2]) {
+                    cout << "bigger" << endl;
+                }
+                else {
+                    cout << "smaller" << endl;
+                }
+            }
+        }
+    
     }
 
     return result;
 }
 
-//determine best move
+vector<int> determine_best_move(vector<vector<int>> result) {
+    vector<int> best_move;
+
+    
+
+    return best_move;
+}
+
+vector<vector<int>> ReversiBot::heuristics(Board game_board) {
+
+    // get list of valid moves
+    vector<vector<int>> valid = game_board.valid_moves(bot_player);
+
+    // always go for a corner piece if available
+    // [0,0] [0,7] [7,0] [7,7]
+    
+
+    
+    // find the highest scoring move possible
+    vector<int> best_score;
+    // make a temp board
+    vector<int> score = game_board.get_score();
+    Board temp_board(game_board.get_board(), score[0], score[1], game_board.get_turn());
+
+    // make move from valid moves
+    for(int i = 0; i < valid.size(); i++) {
+        temp_board.make_move(bot_player, valid[i]);
+        // get score of board after move was taken
+        vector<int> temp_score = temp_board.get_score();
+        // compare the scores
+        if(temp_score > best_score) {
+            best_score = temp_score;
+        }
+    }
+
+}

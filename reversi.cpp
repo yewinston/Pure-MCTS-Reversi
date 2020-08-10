@@ -18,6 +18,7 @@ int main(){
     ReversiBot bot = ReversiBot(2, false, 100);
 
     bot.pure_mcts(new_game.get_board());
+    
 
     return 0;
 }

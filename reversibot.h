@@ -27,6 +27,7 @@ class ReversiBot{
 
         // determine heuristic later, just a placeholder
         std::vector<std::vector<int>> pure_mcts(Board game_board);
+        std::vector<std::vector<int>> heuristics(Board game_board);
 
         // determine best move, used after pure_mcts
         // resolves tie-breakers, focuses on Wins and Ties
