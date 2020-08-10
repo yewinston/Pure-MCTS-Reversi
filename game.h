@@ -9,13 +9,11 @@
 
 class Game {
     private:
-        // 1 - black,  2 - white, 0 - empty
-        int turn;
-
         Board game_board;
+        int player;
 
     public:
-        Game();
+        Board get_board();
 
         // start game: do you want to play against a bot
         // if yes -> coin flip: who goes first

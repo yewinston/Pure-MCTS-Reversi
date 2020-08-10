@@ -23,30 +23,36 @@ Board::Board(){
     game_board = new_board;
     black_score = 0;
     white_score = 0;
+    turn = 1; // temporary
 }
 
-Board::Board(vector<vector<int>> new_board, int b_score, int w_score){
+Board::Board(vector<vector<int>> new_board, int b_score, int w_score, int whose_turn){
     cout << "Using a pre-made board\n";
     game_board = new_board;
     white_score = w_score;
     black_score = b_score;
+    turn = whose_turn;
 }
 
-void Board::print_board(int player) {
+vector<vector<int>> Board::get_board(){
+    vector<vector<int>> copy_board(game_board.size());
+    copy(game_board.begin(), game_board.end(), copy_board.begin());
+    return game_board;
+}
+
+void Board::print_board() {
     int n = 8; 
-
     bool debug = false;
-
-    cout << "\n    A   B   C   D   E   F   G   H" << endl;
-    cout << "\n    0   1   2   3   4   5   6   7" << endl;
     
-    vector<vector<int>> moves = valid_moves(player);
-
+    vector<vector<int>> moves = valid_moves(turn);
     vector<vector<char>> moves_board(n, vector<char>(n, '0'));
 
     for(int i = 0; i < moves.size(); i++){
         moves_board[moves[i][1]][moves[i][0]] = '#';
     }
+
+    cout << "\n    A   B   C   D   E   F   G   H" << endl;
+    cout << "\n    0   1   2   3   4   5   6   7" << endl;
 
     for (int i = 0; i < n; i++) { 
         cout << "   -------------------------------- "<< endl;
@@ -60,11 +66,9 @@ void Board::print_board(int player) {
                 if(moves_board[i][j] == '#'){
                     cout << "| * ";
                 }
-
                 else if(game_board[i][j] == 0){
                     cout << "|   ";
                 }
-
                 else if(game_board[i][j] == 1){
                     cout << "| X ";
                 }
@@ -77,6 +81,19 @@ void Board::print_board(int player) {
     } 
     cout << "   -------------------------------- " << endl;
 } 
+
+int Board::get_turn(){
+    return turn;
+}
+
+void Board::flip_turn(){
+    if(turn == 1){
+        turn = 2;
+    }
+    else{
+        turn = 1;
+    }
+}
 
 bool Board::check_valid_line(int player, int delta_x, int delta_y, int x_start, int y_start){
     
@@ -111,7 +128,7 @@ bool Board::is_valid_move(int player, int delta_x, int delta_y, int x_start, int
         other_player = 1;
     }
     else {
-        cout << "error" << endl;
+        cout << "player == "<< player << endl;
         return false;
     }
     
@@ -168,6 +185,8 @@ void Board::make_move(int player, vector<int> position){
     cout << "x: " << position[0] << " y: " << position[1] << endl;
 
     game_board[position[1]][position[0]] = player;
+    flip_tiles(player, position);
+    flip_turn();
     return;
 }
 
@@ -240,15 +259,17 @@ void Board::update_scores() {
     white_score = w_score;
 }
 
-int Board::check_victory(){
+int Board::check_victory(int whos_turn){
     update_scores();
 
-    vector<vector<int>> b_moves = valid_moves(1);
-    vector<vector<int>> w_moves = valid_moves(2);
+    vector<vector<int>> moves = valid_moves(whos_turn);
     
-    if((b_moves.size() == 0)&&(w_moves.size() == 0)){
+    if(moves.size() == 0){
         if(black_score > white_score){
             return 1;
+        }
+        else if(black_score == white_score){
+            return -1;
         }
         else{
             return 2;

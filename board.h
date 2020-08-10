@@ -9,17 +9,23 @@ class Board{
         std::vector<std::vector<int>> game_board;
         int black_score;
         int white_score;
+        int turn;
     public:
         // Default constructor
         Board();
 
         // Parameterized Constructor 
-        Board(std::vector<std::vector<int>> new_board, int b_score, int w_score);
+        Board(std::vector<std::vector<int>> new_board, int b_score, int w_score, int whose_turn);
 
-        void print_board(int player);
+        // might need a better name, returns a copied board
+        std::vector<std::vector<int>> get_board();
 
+        void print_board();
+
+        void flip_turn();
+        
         // 1 - black, 2 - white
-        int whos_turn();
+        int get_turn();
 
         bool is_valid_move(int player, int delta_x, int delta_y, int x_start, int y_start);
 
@@ -42,7 +48,8 @@ class Board{
 
         void update_scores();
 
-        int check_victory();
+        // 0 - no victory, 1 - black, 2 - white
+        int check_victory(int whos_turn);
 };
 
 #endif
