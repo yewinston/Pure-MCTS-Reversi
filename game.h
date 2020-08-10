@@ -28,9 +28,6 @@ class Game {
 
         void print_score(Board the_board);
 
-        // changes turn order
-        void flip_turn();
-
         // player is asked what move they want to make
         void move_input();
 

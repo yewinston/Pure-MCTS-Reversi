@@ -51,7 +51,7 @@ void Board::print_board() {
         moves_board[moves[i][1]][moves[i][0]] = '#';
     }
 
-    cout << "\n    A   B   C   D   E   F   G   H" << endl;
+    cout << endl << "\n    A   B   C   D   E   F   G   H" << endl;
     cout << "\n    0   1   2   3   4   5   6   7" << endl;
 
     for (int i = 0; i < n; i++) { 
@@ -96,22 +96,31 @@ void Board::flip_turn(){
 }
 
 bool Board::check_valid_line(int player, int delta_x, int delta_y, int x_start, int y_start){
-    
-    if (game_board[x_start][y_start] == player) {
-        return true;
-    } 
+    //cout << "check_valid_line function starts" << endl;
 
-    if (game_board[x_start][y_start] == 0){
-        return false;
-    }
+    //cout << "x-start: " << x_start << " y-start: " << y_start << endl;
 
     if ((x_start + delta_x < 0) || (x_start + delta_x > 7)){
+
         return false;
     }
 
     if ((y_start + delta_y < 0) || (y_start + delta_y > 7)){
         return false;
     }
+
+    if (game_board[x_start][y_start] == player) {
+        //cout << "game board[x][y] == player returns true" << endl;
+        return true;
+    } 
+
+    if (game_board[x_start][y_start] == 0){
+        //cout << "game board[x][y] == 0 returns false" << endl;
+        return false;
+    }
+
+
+
 
     return check_valid_line(player, delta_x, delta_y, x_start + delta_x, y_start + delta_y); 
 }
@@ -181,8 +190,7 @@ vector<vector<int>> Board::valid_moves(int player) {
 void Board::make_move(int player, vector<int> position){
     // TODO: NEEDS ERROR CHECKING
 
-    cout << "player number is: " << player << endl;
-    cout << "x: " << position[0] << " y: " << position[1] << endl;
+    cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
 
     game_board[position[1]][position[0]] = player;
     flip_tiles(player, position);
@@ -263,16 +271,20 @@ int Board::check_victory(int whos_turn){
     update_scores();
 
     vector<vector<int>> moves = valid_moves(whos_turn);
-    
+    cout << "Black score: " << black_score << " White score: " << white_score << endl;
+    cout << "Moves left for " << whos_turn << ": " << moves.size() << endl;
     if(moves.size() == 0){
         if(black_score > white_score){
+            cout << "Black wins" << endl;
             return 1;
         }
-        else if(black_score == white_score){
-            return -1;
-        }
-        else{
+        else if(black_score < white_score){
+            cout << "White wins" << endl;
             return 2;
+        }
+        else if(black_score == white_score){
+            cout << "Tie" << endl;
+            return -1;
         }
     }
     return 0;

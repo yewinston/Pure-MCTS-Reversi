@@ -9,6 +9,8 @@ using namespace std;
 int main(){
     Game new_game;
     
+    new_game.print_status();
+
     new_game.move_input();
 
     new_game.print_status();

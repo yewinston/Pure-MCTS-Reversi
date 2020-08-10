@@ -30,6 +30,9 @@ class ReversiBot{
 
         // determine best move, used after pure_mcts
         // resolves tie-breakers, focuses on Wins and Ties
+        // Wins > Ties, if tie breaker on wins/ties, pick a random result
+        // rand() % 5 -> 0-4
+        // rand() % 5 + 1 -> 1-5
         std::vector<int> determine_best_move(std::vector<std::vector<int>>);
 };
 
