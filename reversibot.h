@@ -15,10 +15,6 @@ class ReversiBot{
 
         bool use_heuristics;
 
-        // [[Wins, Loss, Ties], ...,[Wins, Loss, Ties]]
-        // for each valid move the AI can make
-        std::vector<std::vector<int>> result;
-
     public:
         ReversiBot(int player, bool use_heuristic, std::chrono::microseconds::rep playout_time);
 
@@ -34,10 +30,9 @@ class ReversiBot{
 
         // determine best move, used after pure_mcts
         // resolves tie-breakers, focuses on Wins and Ties
-        // Wins > Ties, if tie breaker on wins/ties, pick a random result
-        // rand() % 5 -> 0-4
-        // rand() % 5 + 1 -> 1-5
         std::vector<int> determine_best_move(std::vector<std::vector<int>> result);
+
+        std::vector<int> determine_weighted_move(std::vector<std::vector<int>> result);
 };
 
 #endif

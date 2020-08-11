@@ -116,6 +116,15 @@ bool win_sort(vector<int> a, vector<int> b){
     return (a[2] > b[2]);
 }
 
+bool weight_sort(vector<int> a, vector<int> b){
+    // If weights are the same, prioritize wins + ties
+    if(a[2] == b[2]){
+        return(a[3] > b[3]);
+    }
+    // Prioritze weights
+    return (a[2] > b[2]);
+}
+
 vector<int> ReversiBot::determine_best_move(vector<vector<int>> result) {
     vector<int> best_move;
     vector<vector<int>> tie_breaker;
@@ -144,6 +153,29 @@ vector<int> ReversiBot::determine_best_move(vector<vector<int>> result) {
             tie_breaker.push_back(result[i]);
         }
     }
+
+    // if(use_heuristics){
+    //     // Pick corners heuristic
+    //     vector<vector<int>> corners;
+    //     for(int j = 0; j < result.size(); j++){
+    //         if(result[j][0] == 0){
+    //             if((result[j][1] == 0) ||(result[j][1] == 7)){
+    //                 corners.push_back(result[j]);
+    //             }
+    //         }
+    //         else if(result[j][0] == 7){
+    //             if((result[j][1] == 0) ||(result[j][1] == 7)){
+    //                 corners.push_back(result[j]);
+    //             }
+    //         }
+    //     }
+    //     // If there is a corner(s), pick the best one.
+    //     if(corners.size() > 0){
+    //         sort(corners.begin(), corners.end(), win_sort);
+    //         cout << "Using corner heuristic" << endl;
+    //         return corners[0];
+    //     }
+    // }
 
     // if there are multiple positions with same number of wins, pick a random one among them
     if(tie_breaker.size() > 1){
@@ -184,4 +216,46 @@ vector<vector<int>> ReversiBot::heuristics(Board game_board) {
         }
     }
     return valid;
+}
+
+vector<int> ReversiBot::determine_weighted_move(vector<vector<int>> result){
+    vector<vector<int>> weight_board({ {4, -3, 2, 2, 2, 2, -3, 4}, 
+                                    {-3, -4, -1, -1, -1, -1, -4, -3},
+                                    {2, -1, 1, 0, 0, 1, -1, 2},
+                                    {2, -1, 0, 1, 1, 0, -1, 2},
+                                    {2, -1, 0, 1, 1, 0, -1, 2},
+                                    {2, -1, 1, 0, 0, 1, -1, 2},
+                                    {-3, -4, -1, -1, -1, -1, -4, -3},
+                                    {4, -3, 2, 2, 2, 2, -3, 4} });
+
+    vector<vector<int>> weighted_result;
+    // vector<vector<int>> tie_breaker;
+    int max_weight;
+
+    for(int i = 0; i < result.size(); i++){
+        int weight = weight_board[result[i][1]][result[i][0]]; 
+        vector<int> weighted_position{result[i][0], result[i][1], weight, result[i][2] + result[i][3]};
+
+        weighted_result.push_back(weighted_position);
+    }
+
+    sort(weighted_result.begin(), weighted_result.end(), weight_sort);
+
+    max_weight = weighted_result[0][2];
+
+    // find all positions that have the same weight
+    // for(int j = 1; j < weighted_result.size(); j++){
+    //     if(max_weight == result[j][2]){
+    //         tie_breaker.push_back(result[j]);
+    //     }
+    // }
+
+    // if(tie_breaker.size() > 1){
+    //     srand(time(0));
+    //     return tie_breaker[rand() % tie_breaker.size()];
+    // }
+
+    // tie-breaker isn't needed because: if weights are equal, then sort will
+    // put element with wins + ties first
+    return weighted_result[0];
 }
