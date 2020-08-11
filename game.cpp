@@ -99,9 +99,8 @@ void Game::move_input() {
     vector<char> valid_alpha{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
 
     bool valid_input = false;
-
-    cout << "Valid moves: " << endl;
-    cout << "It's your turn! Type a coordiante in the format '[A-H][0-7]':" << endl;
+    
+    cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':" << endl;
     
     // parse user_input;
     while(!valid_input){
@@ -157,6 +156,10 @@ void Game::move_input() {
             }
         }
     }
+}
+
+void Game::ai_move(int bot_player, vector<int> position){
+    game_board.make_move(bot_player, position);
 }
 
 // parses user input and determines if move is valid

@@ -21,6 +21,8 @@ class ReversiBot{
     public:
         ReversiBot(int player, bool use_heuristic, int playout_time);
 
+        int get_bot();
+        
         // Takes a position [x,y] and returns true if action is made
         // Returns false if action cannot be made
         bool make_action(std::vector<int> position);
@@ -34,7 +36,7 @@ class ReversiBot{
         // Wins > Ties, if tie breaker on wins/ties, pick a random result
         // rand() % 5 -> 0-4
         // rand() % 5 + 1 -> 1-5
-        std::vector<int> determine_best_move(std::vector<std::vector<int>>);
+        std::vector<int> determine_best_move(std::vector<std::vector<int>> result);
 };
 
 #endif

@@ -31,6 +31,8 @@ class Game {
         // player is asked what move they want to make
         void move_input();
 
+        void ai_move(int bot_player, std::vector<int> position);
+
         // parses user input and determines if move is valid
         // return true if valid
         bool move_validate(std::vector<int> position);

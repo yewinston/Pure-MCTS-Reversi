@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <stdlib.h>
 
 #include "reversibot.h"
@@ -11,6 +12,10 @@ using namespace std;
 ReversiBot::ReversiBot(int player, bool heuristic, int playout_time){
     bot_player = player;
     use_heuristics = heuristic;
+}
+
+int ReversiBot::get_bot(){
+    return bot_player;
 }
 
 // Pure MCTS
@@ -26,7 +31,7 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
         result.push_back(stat);
     }
 
-    int playouts = 10;
+    int playouts = 100;
 
     for(int m = 0; m < playouts; m++){
         // perform random playouts on valid moves, stop when reach max playout time
@@ -37,7 +42,7 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
 
             while(temp_board.check_victory(temp_board.get_turn()) == 0){
                 if(initial_move){
-                    cout << "initial move" << endl;
+                    // cout << "initial move" << endl;
                     temp_board.make_move(bot_player, valid[i]);
                     initial_move = false;
                 }
@@ -51,7 +56,7 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
                     vector<int> rand_position = next_moves[rand() % next_moves.size()];
                     temp_board.make_move(temp_board.get_turn(), rand_position);
                 }
-                temp_board.print_board();
+                // temp_board.print_board();
             }
             // -1 = tie, 1 = black win, 2 = white win
             int game_result = temp_board.check_victory(temp_board.get_turn());
@@ -71,33 +76,61 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
             }
         }
 
-        for(int k = 0; k < result.size(); k++){
-            cout << "X: " << result[k][0] << " Y:" << result[k][1] << endl;
-            cout << "Wins: " << result[k][2] << ", Losses: " << result[k][3] << ", Ties: " << result[k][4] << endl;
-
-        }
-        for (int i = 0; i < result.size(); i++) {
-            vector<int> best_move;
-            best_move.push_back(result[i][2]);
-            for (int k = i + 1; k < result.size(); k++) {
-                if (result[i][2] > result[k][2]) {
-                    cout << "bigger" << endl;
-                }
-                else {
-                    cout << "smaller" << endl;
-                }
-            }
-        }
-    
+        // for(int k = 0; k < result.size(); k++){
+        //     cout << "X: " << result[k][0] << " Y:" << result[k][1] << endl;
+        //     cout << "Wins: " << result[k][2] << ", Losses: " << result[k][3] << ", Ties: " << result[k][4] << endl;
+        // }
     }
-
     return result;
 }
 
-vector<int> determine_best_move(vector<vector<int>> result) {
-    vector<int> best_move;
+// sorts the result vector in descending order, based on wins
+bool win_sort(vector<int> a, vector<int> b){
+    // wins are the same
+    if(a[2] == b[2]){
+        // then sort by ties
+        return(a[4] > b[4]);
+    }
+    return (a[2] > b[2]);
+}
 
-    
+vector<int> ReversiBot::determine_best_move(vector<vector<int>> result) {
+    vector<int> best_move;
+    vector<vector<int>> tie_breaker;
+    int win_max;
+
+    // cout << "before sort" << endl;
+    // for(int p = 0; p < result.size(); p++){
+    //     cout << "X: " << result[p][0] << ", Y:" << result[p][1] << ", Wins:" << result[p][2] <<", Loss:" << result[p][3] << ", Ties:" << result[p][4] << endl; 
+    // }
+ 
+    // sort the result vector
+    sort(result.begin(), result.end(), win_sort);
+
+    // cout << "after sort" << endl;
+    // for(int q = 0; q < result.size(); q++){
+    //     cout << "X: " << result[q][0] << ", Y:" << result[q][1] << ", Wins:" << result[q][2] <<", Loss:" << result[q][3] << ", Ties:" << result[q][4] << endl; 
+    // }
+
+    win_max = result[0][2];
+    tie_breaker.push_back(result[0]);
+
+    // find all positions that have wins == win_max
+    // solves case where all positions have a win == 0
+    for(int i = 1; i < result.size(); i++){
+        if(win_max == result[i][2]){
+            tie_breaker.push_back(result[i]);
+        }
+    }
+
+    // if there are multiple positions with same number of wins, pick a random one among them
+    if(tie_breaker.size() > 1){
+        srand(time(0));
+        best_move = tie_breaker[rand() % tie_breaker.size()];
+    }
+    else{
+        best_move = result[0];
+    }
 
     return best_move;
 }
@@ -128,5 +161,5 @@ vector<vector<int>> ReversiBot::heuristics(Board game_board) {
             best_score = temp_score;
         }
     }
-
+    return valid;
 }

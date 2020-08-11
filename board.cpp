@@ -1,4 +1,4 @@
-#include <iostream>
+ #include <iostream>
 #include <vector>
 #include <string>
 
@@ -8,7 +8,7 @@ using namespace std;
 
 // Default constructor
 Board::Board(){
-    cout << "Default board being made\n";
+    // cout << "Default board being made\n";
     // X = columns
     // Y = rows
     
@@ -27,7 +27,7 @@ Board::Board(){
 }
 
 Board::Board(vector<vector<int>> new_board, int b_score, int w_score, int whose_turn){
-    cout << "Using a pre-made board\n";
+    // cout << "Using a pre-made board\n";
     game_board = new_board;
     white_score = w_score;
     black_score = b_score;
@@ -190,8 +190,12 @@ vector<vector<int>> Board::valid_moves(int player) {
 void Board::make_move(int player, vector<int> position){
     // TODO: NEEDS ERROR CHECKING
 
-    cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
-
+    //cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
+    // if (player == 2)
+    // {
+    //     cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
+    // }
+    
     game_board[position[1]][position[0]] = player;
     flip_tiles(player, position);
     flip_turn();
@@ -271,19 +275,19 @@ int Board::check_victory(int whos_turn){
     update_scores();
 
     vector<vector<int>> moves = valid_moves(whos_turn);
-    cout << "Black score: " << black_score << " White score: " << white_score << endl;
-    cout << "Moves left for " << whos_turn << ": " << moves.size() << endl;
+    // cout << "Black score: " << black_score << " White score: " << white_score << endl;
+    // cout << "Moves left for " << whos_turn << ": " << moves.size() << endl;
     if(moves.size() == 0){
         if(black_score > white_score){
-            cout << "Black wins" << endl;
+            // cout << "Black wins" << endl;
             return 1;
         }
         else if(black_score < white_score){
-            cout << "White wins" << endl;
+            // cout << "White wins" << endl;
             return 2;
         }
         else if(black_score == white_score){
-            cout << "Tie" << endl;
+            // cout << "Tie" << endl;
             return -1;
         }
     }
