@@ -14,8 +14,8 @@ int main(){
         Game new_game;
         bool game_over = false;
 
-        //std::chrono::microseconds sec(4999000);
-        std::chrono::microseconds sec(2999000);
+        std::chrono::microseconds sec(4999000);
+        // std::chrono::microseconds sec(2999000);
         chrono::microseconds::rep max_time = chrono::duration_cast<chrono::microseconds>(sec).count();
 
         //chrono::microseconds::rep max_time = 4us; 
