@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// Checks if a string is a valid number
 bool is_number(const string& s) {
     string::const_iterator it = s.begin();
     while (it != s.end() && isdigit(*it)) ++it;
@@ -21,9 +22,6 @@ Board Game::get_board(){
     return game_board;
 }
 
-// start game: do you want to play against a bot
-// if yes -> coin flip: who goes first
-// set players to colours accordingly
 int Game::set_game() {
     int game_choice = 0;
     string user_input;
@@ -42,6 +40,7 @@ int Game::set_game() {
 
                     cout << "Would you like to go first? (Y/N) ";
                     cin >> user_input;
+
                     if (user_input == "Y" | user_input == "y") {
                         cout << "Player wants to go first" << endl;
                         game_choice = 4;
@@ -51,7 +50,7 @@ int Game::set_game() {
                         game_choice = 5;
                     }
                     else {
-                        cout << "Invalid Input.." << endl;
+                        cout << "Invalid input, please type 'Y' or 'N'" << endl;
                         game_choice = 0;
                     }
                     
@@ -77,13 +76,6 @@ int Game::set_game() {
     return game_choice;
 }
 
-// sim_game - simulate game against 2 bots
-// go_first - does player want to go first?
-void Game::start_game(bool sim_game, bool go_first) { 
-    cout << "do u wanna sim?: " << sim_game << endl;
-    cout << "do u wanna go first?: " << go_first << endl;
-}
-
 bool Game::check_end() {
     vector<vector<int>> moves_left = game_board.valid_moves(game_board.get_turn());
     
@@ -93,14 +85,6 @@ bool Game::check_end() {
     return false;
 }
 
-void Game::print_score(Board the_board) {
-    vector<int> scores = the_board.get_score();
-    cout << "Black score (X): " << scores[0] << endl;
-    cout << "White score (O): " << scores[1] << endl;
-}
-
-
-// player is asked what move they want to make
 void Game::move_input() {
     string user_input;
     vector<char> valid_alpha{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
@@ -135,7 +119,7 @@ void Game::move_input() {
                 if(isdigit(test_num)){
                     int y_pos = (test_num - '0') % 48;
                     if((y_pos >= 0) && (y_pos < 8)){
-                        //cout << "valid input! X:" << find_char - valid_alpha.begin() << " Y: " << y_pos << endl;
+                        //cout << "X:" << find_char - valid_alpha.begin() << " Y: " << y_pos << endl;
                         
                         int x_pos = find_char - valid_alpha.begin();
                         vector<int> position{x_pos, y_pos};
@@ -165,12 +149,6 @@ void Game::move_input() {
     }
 }
 
-void Game::ai_move(int bot_player, vector<int> position){
-    game_board.make_move(bot_player, position);
-}
-
-// parses user input and determines if move is valid
-// return true if valid
 bool Game::move_validate(vector<int> position) {
     vector<vector<int>> valid_moves = game_board.valid_moves(1);
 
@@ -181,11 +159,19 @@ bool Game::move_validate(vector<int> position) {
             }
         }
     }
-
     return false;
 }
 
-// prints score and the board
+void Game::ai_move(int bot_player, vector<int> position){
+    game_board.make_move(bot_player, position);
+}
+
+void Game::print_score(Board the_board) {
+    vector<int> scores = the_board.get_score();
+    cout << "Black score (X): " << scores[0] << endl;
+    cout << "White score (O): " << scores[1] << endl;
+}
+
 void Game::print_status() {
     game_board.print_board();
     print_score(game_board);

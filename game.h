@@ -13,31 +13,31 @@ class Game {
         int player;
 
     public:
+        // Returns the game_board, shallow copy
         Board get_board();
 
-        // start game: do you want to play against a bot
-        // if yes -> coin flip: who goes first
-        // set players to colours accordingly
+        // Set's the game up by receiving user input. Determines who goes first as well as
+        // if a game is being played or if simulations will be done.
         int set_game();
         
-        // sim_game - simulate game against 2 bots
-        // go_first - does player want to go first?
-        void start_game(bool sim_game, bool go_first);
-        
+        // Returns true if game is over, which is when the current player has no longer
+        // has any more moves left. Returns false otherwise.
         bool check_end();
 
-        void print_score(Board the_board);
-
-        // player is asked what move they want to make
+        // Receives the user's input for a game move and validates if it is correct
         void move_input();
 
-        void ai_move(int bot_player, std::vector<int> position);
-
-        // parses user input and determines if move is valid
-        // return true if valid
+        // Parses the user input and determines if the input and move is valid
+        // Returns true if valid, false otherwise
         bool move_validate(std::vector<int> position);
 
-        // prints score and the board
+        // Given the bot_player (1/2) and a position [x, y], makes the move on the board
+        void ai_move(int bot_player, std::vector<int> position);
+
+        // Prints the current game score
+        void print_score(Board the_board);
+
+        // Prints the score and the board
         void print_status();
 };
 

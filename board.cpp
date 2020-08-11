@@ -1,4 +1,4 @@
- #include <iostream>
+#include <iostream>
 #include <vector>
 #include <string>
 
@@ -6,12 +6,7 @@
 
 using namespace std;
 
-// Default constructor
 Board::Board(){
-    // cout << "Default board being made\n";
-    // X = columns
-    // Y = rows
-    
     vector<vector<int>> new_board({ {0, 0, 0, 0, 0, 0, 0, 0 }, 
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
                                     {0, 0, 0, 0, 0, 0, 0, 0 },
@@ -27,7 +22,6 @@ Board::Board(){
 }
 
 Board::Board(vector<vector<int>> new_board, int b_score, int w_score, int whose_turn){
-    // cout << "Using a pre-made board\n";
     game_board = new_board;
     white_score = w_score;
     black_score = b_score;
@@ -42,7 +36,7 @@ vector<vector<int>> Board::get_board(){
 
 void Board::print_board() {
     int n = 8; 
-    bool debug = false;
+    bool debug = false; // Shows the raw vector board when true
     
     vector<vector<int>> moves = valid_moves(turn);
     vector<vector<char>> moves_board(n, vector<char>(n, '0'));
@@ -96,12 +90,7 @@ void Board::flip_turn(){
 }
 
 bool Board::check_valid_line(int player, int delta_x, int delta_y, int x_start, int y_start){
-    //cout << "check_valid_line function starts" << endl;
-
-    //cout << "x-start: " << x_start << " y-start: " << y_start << endl;
-
     if ((x_start + delta_x < 0) || (x_start + delta_x > 7)){
-
         return false;
     }
 
@@ -110,25 +99,18 @@ bool Board::check_valid_line(int player, int delta_x, int delta_y, int x_start, 
     }
 
     if (game_board[x_start][y_start] == player) {
-        //cout << "game board[x][y] == player returns true" << endl;
         return true;
     } 
 
     if (game_board[x_start][y_start] == 0){
-        //cout << "game board[x][y] == 0 returns false" << endl;
         return false;
     }
-
-
-
 
     return check_valid_line(player, delta_x, delta_y, x_start + delta_x, y_start + delta_y); 
 }
 
 bool Board::is_valid_move(int player, int delta_x, int delta_y, int x_start, int y_start){
-    
     int other_player;
-
 
     if (player == 1) {
         other_player = 2;
@@ -156,8 +138,6 @@ bool Board::is_valid_move(int player, int delta_x, int delta_y, int x_start, int
     return check_valid_line(player, delta_x, delta_y, x_start + delta_x + delta_x, y_start + delta_y + delta_y); 
 }
 
-// returns all valid moves
-// [ [x1, y2], [x2, y2], ... ,[xn, yn] ]
 vector<vector<int>> Board::valid_moves(int player) {
     vector<vector<int>> valid;
 
@@ -188,14 +168,6 @@ vector<vector<int>> Board::valid_moves(int player) {
 }
 
 void Board::make_move(int player, vector<int> position){
-    // TODO: NEEDS ERROR CHECKING
-
-    //cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
-    // if (player == 2)
-    // {
-    //     cout << "Player: " << player  << " made move: " << "X: " << position[0] << " Y: " << position[1] << endl;
-    // }
-    
     game_board[position[1]][position[0]] = player;
     flip_tiles(player, position);
     flip_turn();
@@ -274,10 +246,8 @@ void Board::update_scores() {
 
 int Board::check_victory(int whos_turn){
     update_scores();
-
     vector<vector<int>> moves = valid_moves(whos_turn);
-    // cout << "Black score: " << black_score << " White score: " << white_score << endl;
-    // cout << "Moves left for " << whos_turn << ": " << moves.size() << endl;
+
     if(moves.size() == 0){
         if(black_score > white_score){
             // cout << "Black wins" << endl;
