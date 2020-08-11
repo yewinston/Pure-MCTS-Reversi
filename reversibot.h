@@ -2,12 +2,13 @@
 #define REVERSIBOT_H
 
 #include <vector>
+#include <chrono>
 #include "board.h"
 
 class ReversiBot{
     private:
         // max playout time in ms
-        int playout_time;
+        std::chrono::microseconds::rep time_of_playouts;
 
         // 1 - black,  2 - white
         int bot_player;
@@ -19,10 +20,10 @@ class ReversiBot{
         std::vector<std::vector<int>> result;
 
     public:
-        ReversiBot(int player, bool use_heuristic, int playout_time);
+        ReversiBot(int player, bool use_heuristic, std::chrono::microseconds::rep playout_time);
 
         int get_bot();
-        
+
         // Takes a position [x,y] and returns true if action is made
         // Returns false if action cannot be made
         bool make_action(std::vector<int> position);

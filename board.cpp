@@ -249,6 +249,7 @@ bool Board::flip_line(int player, int delta_x, int delta_y, int x_start, int y_s
 }
 
 vector<int> Board::get_score() {
+    update_scores();
     vector<int> scores{black_score, white_score};
     return scores;
 };

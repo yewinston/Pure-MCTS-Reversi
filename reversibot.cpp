@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <chrono>
 #include <stdlib.h>
 
 #include "reversibot.h"
@@ -9,9 +10,12 @@
 
 using namespace std;
 
-ReversiBot::ReversiBot(int player, bool heuristic, int playout_time){
+ReversiBot::ReversiBot(int player, bool heuristic, chrono::microseconds::rep playout_time){
     bot_player = player;
     use_heuristics = heuristic;
+    //cout << "Playout time of playouts: " << time_of_playouts << endl;
+    time_of_playouts = playout_time;
+    //cout << "Playout time in constructor pt2 " << time_of_playouts << endl;
 }
 
 int ReversiBot::get_bot(){
@@ -21,19 +25,23 @@ int ReversiBot::get_bot(){
 // Pure MCTS
 vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
     vector<vector<int>> result;
+    chrono::microseconds::rep time_playouts = time_of_playouts;
 
     // determine valid moves
     vector<vector<int>> valid = game_board.valid_moves(bot_player);
     bool initial_move = true;
+    bool times_up = false;
+    //cout << "Playout time at start of loop: " << time_playouts << endl;
+    int playouts = 0;
 
     for(int j = 0; j < valid.size(); j++){
         vector<int> stat{valid[j][0], valid[j][1], 0, 0, 0};
         result.push_back(stat);
     }
 
-    int playouts = 100;
+    chrono::steady_clock::time_point playout_begin = std::chrono::steady_clock::now();
 
-    for(int m = 0; m < playouts; m++){
+    while(!times_up){
         // perform random playouts on valid moves, stop when reach max playout time
         for(int i = 0; i < valid.size(); i++){
             // get a temporary, deep copied board to work with
@@ -74,23 +82,37 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
             else{
                 result[i][3] += 1;
             }
+            
+            // check clock, time elapsed > max time
+            chrono::steady_clock::time_point playout_end = std::chrono::steady_clock::now();
+            chrono::microseconds::rep duration = chrono::duration_cast<chrono::microseconds>(playout_end - playout_begin).count();
+            //cout << "Duration: " << duration << endl;
+            //cout << "Playout time at end of loop: " << time_of_playouts << endl;
+            if(duration >= time_of_playouts){
+                cout << "Total duration: " << duration << endl;
+                times_up = true;
+            }
         }
-
-        // for(int k = 0; k < result.size(); k++){
-        //     cout << "X: " << result[k][0] << " Y:" << result[k][1] << endl;
-        //     cout << "Wins: " << result[k][2] << ", Losses: " << result[k][3] << ", Ties: " << result[k][4] << endl;
-        // }
+        playouts++;
     }
+    cout << "Total number of playouts: " << playouts << endl;
     return result;
 }
 
 // sorts the result vector in descending order, based on wins
 bool win_sort(vector<int> a, vector<int> b){
-    // wins are the same
+    // If wins are the same, prioritze most ties
     if(a[2] == b[2]){
-        // then sort by ties
-        return(a[4] > b[4]);
+        // If ties are the same, prioritize least loses
+        if(a[4] == b[4]){
+            return(a[3] < b[3]);
+        }
+        // Prioritize ties
+        else{
+            return(a[4] > b[4]);
+        }
     }
+    // Prioritize wins
     return (a[2] > b[2]);
 }
 
