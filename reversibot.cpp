@@ -89,13 +89,13 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
             //cout << "Duration: " << duration << endl;
             //cout << "Playout time at end of loop: " << time_of_playouts << endl;
             if(duration >= time_of_playouts){
-                cout << "Total duration: " << duration << endl;
+                //cout << "Total duration: " << duration << endl;
                 times_up = true;
             }
         }
         playouts++;
     }
-    cout << "Total number of playouts: " << playouts << endl;
+    //cout << "Total number of playouts: " << playouts << endl;
     return result;
 }
 

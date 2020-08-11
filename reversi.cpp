@@ -28,12 +28,12 @@ int main(){
             // game_over = new_game.check_end();
 
             // random ai
-            new_game.print_status();
+            //new_game.print_status();
             ReversiBot bot_weight = ReversiBot(1, true, max_time);
             vector<vector<int>> mcts_results = bot_weight.pure_mcts(new_game.get_board());
             vector<int> weight_move = bot_weight.determine_weighted_move(mcts_results);
             new_game.ai_move(bot_weight.get_bot(), weight_move);
-            new_game.print_status();
+            //new_game.print_status();
             game_over = new_game.check_end();
 
             if(game_over == false){
@@ -54,9 +54,9 @@ int main(){
                 game_over = new_game.check_end();
             }
         }
-        
+        new_game.print_status();
         int end_result = new_game.get_board().check_victory(new_game.get_board().get_turn());
-
+        cout << "results for game: " << i << endl;
         if(end_result == 1){
             cout << "X wins!" << endl;
             weighted_wins++;

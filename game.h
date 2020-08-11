@@ -18,7 +18,7 @@ class Game {
         // start game: do you want to play against a bot
         // if yes -> coin flip: who goes first
         // set players to colours accordingly
-        void set_game();
+        int set_game();
         
         // sim_game - simulate game against 2 bots
         // go_first - does player want to go first?

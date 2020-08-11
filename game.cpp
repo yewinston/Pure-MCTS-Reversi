@@ -24,7 +24,7 @@ Board Game::get_board(){
 // start game: do you want to play against a bot
 // if yes -> coin flip: who goes first
 // set players to colours accordingly
-void Game::set_game() {
+int Game::set_game() {
     int game_choice = 0;
     string user_input;
 
@@ -42,22 +42,27 @@ void Game::set_game() {
 
                     cout << "Would you like to go first? (Y/N) ";
                     cin >> user_input;
-                    if (user_input == "Y" | user_input == "y")
+                    if (user_input == "Y" | user_input == "y") {
                         cout << "Player wants to go first" << endl;
-                    else if (user_input == "N" | user_input == "n")
+                        game_choice = 4;
+                    }
+                    else if (user_input == "N" | user_input == "n") {
                         cout << "Player wants to go second" << endl;
+                        game_choice = 5;
+                    }
                     else {
-                        // cout << "Invalid Input.." << endl;
-                        // cout << "Would you like to go first? (Y/N) ";
-                        // cin >> user_input;
+                        cout << "Invalid Input.." << endl;
+                        game_choice = 0;
                     }
                     
                 }
                 else if(game_choice == 2){
                     cout << "harder AI" << endl;
+                    game_choice = 2;
                 }
                 else if(game_choice == 3){
                     cout << "sim game" << endl;
+                    game_choice = 3;
                 }
             }
             else{
@@ -69,12 +74,14 @@ void Game::set_game() {
             cout << "Error: expected a number, input is not a valid.\n";
         }
     }
+    return game_choice;
 }
 
 // sim_game - simulate game against 2 bots
 // go_first - does player want to go first?
 void Game::start_game(bool sim_game, bool go_first) { 
-
+    cout << "do u wanna sim?: " << sim_game << endl;
+    cout << "do u wanna go first?: " << go_first << endl;
 }
 
 bool Game::check_end() {
