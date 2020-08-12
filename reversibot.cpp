@@ -24,7 +24,7 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
     chrono::microseconds::rep time_playouts = time_of_playouts;
     bool initial_move = true;
     bool times_up = false;
-    int playouts = 0;
+    // int playouts = 0;
 
     // Determine valid moves
     vector<vector<int>> valid = game_board.valid_moves(bot_player);
@@ -90,7 +90,7 @@ vector<vector<int>> ReversiBot::pure_mcts(Board game_board){
                 times_up = true;
             }
         }
-        playouts++;
+        // playouts++;
     }
     //cout << "Total number of playouts: " << playouts << endl;
     return result;

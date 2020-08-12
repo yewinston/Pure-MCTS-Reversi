@@ -43,10 +43,12 @@ int Game::set_game() {
 
                     if (user_input == "Y" | user_input == "y") {
                         cout << "Player wants to go first" << endl;
+                        player = 1;
                         return 1;
                     }
                     else if (user_input == "N" | user_input == "n") {
                         cout << "Player wants to go second" << endl;
+                        player = 2;
                         return 2;
                     }
                     else {
@@ -62,10 +64,12 @@ int Game::set_game() {
 
                     if (user_input == "Y" | user_input == "y") {
                         cout << "Player wants to go first" << endl;
+                        player = 1;
                         return 3;
                     }
                     else if (user_input == "N" | user_input == "n") {
                         cout << "Player wants to go second" << endl;
+                        player = 2;
                         return 4;
                     }
                     else {
@@ -157,7 +161,7 @@ void Game::move_input() {
                         bool valid_move = move_validate(position);
                         
                         if(valid_move){
-                            game_board.make_move(1, position);
+                            game_board.make_move(player, position);
                             valid_input = true;
                         }
                         else{
@@ -184,7 +188,7 @@ void Game::move_input() {
 }
 
 bool Game::move_validate(vector<int> position) {
-    vector<vector<int>> valid_moves = game_board.valid_moves(1);
+    vector<vector<int>> valid_moves = game_board.valid_moves(player);
 
     for(int i = 0; i < valid_moves.size(); i++){
         if(valid_moves[i][0] == position[0]){
