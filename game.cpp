@@ -28,40 +28,69 @@ int Game::set_game() {
 
     cout << "Reversi - 310 Final Project\nMarian Nguyen (mna68@sfu.ca), Winston Ye (winstony@sfu.ca)\n";
     while(game_choice == 0) {
-        cout << "Enter the number corresponding to the gamemode you wish to start:\n";
-        cout << "\t1. Play against an AI without heuristics\n" << "\t2. Play against an AI with heuristics\n" << "\t3. Simulate a game (heuristic AI vs no heuristic AI)\n\n";
+        cout << endl << "Enter the number corresponding to the gamemode you wish to start (1-3):\n";
+        cout << "\t1. Play against an AI without heuristics\n" << "\t2. Play against an AI with heuristics\n" << "\t3. Simulate a game (heuristic AI vs no heuristic AI)\n";
         cout << "> ";
         cin >> user_input;
 
         if(is_number(user_input)){
             game_choice = stoi(user_input);
             if((game_choice < 4) && (game_choice > 0)){
+                // Play against an AI without heuristics
                 if(game_choice == 1){
-
-                    cout << "Would you like to go first? (Y/N) ";
+                    cout << "Would you like to go first? (Y/N):\n" << "> ";
                     cin >> user_input;
 
                     if (user_input == "Y" | user_input == "y") {
                         cout << "Player wants to go first" << endl;
-                        game_choice = 4;
+                        return 1;
                     }
                     else if (user_input == "N" | user_input == "n") {
                         cout << "Player wants to go second" << endl;
-                        game_choice = 5;
+                        return 2;
                     }
                     else {
                         cout << "Invalid input, please type 'Y' or 'N'" << endl;
                         game_choice = 0;
                     }
-                    
                 }
+
+                // Play against AI with heuristics
                 else if(game_choice == 2){
-                    cout << "harder AI" << endl;
-                    game_choice = 2;
+                    cout << "Would you like to go first? (Y/N):\n" << "> ";
+                    cin >> user_input;
+
+                    if (user_input == "Y" | user_input == "y") {
+                        cout << "Player wants to go first" << endl;
+                        return 3;
+                    }
+                    else if (user_input == "N" | user_input == "n") {
+                        cout << "Player wants to go second" << endl;
+                        return 4;
+                    }
+                    else {
+                        cout << "Invalid input, please type 'Y' or 'N'" << endl;
+                        game_choice = 0;
+                    }
                 }
+
+                // Simulate a game between AI's
                 else if(game_choice == 3){
-                    cout << "sim game" << endl;
-                    game_choice = 3;
+                    cout << "Will the AI with heuristics go first? (Y/N):\n" << "> ";
+                    cin >> user_input;
+
+                    if (user_input == "Y" | user_input == "y") {
+                        cout << "AI with heuristics will go first" << endl;
+                        return 5;
+                    }
+                    else if (user_input == "N" | user_input == "n") {
+                        cout << "AI with heuristics will go second" << endl;
+                        return 6;
+                    }
+                    else {
+                        cout << "Invalid input, please type 'Y' or 'N'" << endl;
+                        game_choice = 0;
+                    }
                 }
             }
             else{
@@ -71,9 +100,10 @@ int Game::set_game() {
         }
         else{
             cout << "Error: expected a number, input is not a valid.\n";
+            game_choice = 0;
         }
     }
-    return game_choice;
+    return 0; // Shouldn't happen.
 }
 
 bool Game::check_end() {
@@ -91,7 +121,7 @@ void Game::move_input() {
 
     bool valid_input = false;
 
-    cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':" << endl;
+    cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':\n" << "> ";
     
     // parse user_input;
     while(!valid_input){
@@ -132,18 +162,22 @@ void Game::move_input() {
                         }
                         else{
                             cout << "Error: invalid position" << endl;
+                            cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':\n" << "> ";
                         }
                     }
                     else{
                         cout << "Error: second character '" << user_input[1] << "' is not in range (0-7)" << endl;
+                        cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':\n" << "> ";
                     }
                 }
                 else{
                     cout << "Error: second character '" << user_input[1] << "' is not a digit" << endl;
+                    cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':\n" << "> ";
                 }
             }
             else{
                 cout << "Error: first character '" << user_input[0] << "' is not in alphabet range of [A-H]." << endl;
+                cout << "It's your turn! Type a coordinate in the format '[A-H][0-7]':\n" << "> ";
             }
         }
     }
@@ -168,8 +202,8 @@ void Game::ai_move(int bot_player, vector<int> position){
 
 void Game::print_score(Board the_board) {
     vector<int> scores = the_board.get_score();
-    cout << "Black score (X): " << scores[0] << endl;
-    cout << "White score (O): " << scores[1] << endl;
+    cout << "X's score: " << scores[0] << endl;
+    cout << "O's score: " << scores[1] << endl;
 }
 
 void Game::print_status() {

@@ -16,7 +16,7 @@ class ReversiBot{
 
     public:
         // Constructor
-        ReversiBot(int player, bool use_heuristic, std::chrono::microseconds::rep playout_time);
+        ReversiBot(int player, std::chrono::microseconds::rep playout_time);
         
         // Returns bot_player, 1 - Black (X),  2 - White (O)
         int get_bot();

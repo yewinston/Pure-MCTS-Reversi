@@ -10,9 +10,8 @@
 
 using namespace std;
 
-ReversiBot::ReversiBot(int player, bool heuristic, chrono::microseconds::rep playout_time){
+ReversiBot::ReversiBot(int player, chrono::microseconds::rep playout_time){
     bot_player = player;
-    use_heuristics = heuristic;
     time_of_playouts = playout_time;
 }
 
