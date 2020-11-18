@@ -7,7 +7,8 @@ An implementation of Reversi where you can play against an AI that utilizes a [p
 - make (optional)
 
 ## Installation
-- Clone the reposistory using `git clone https://github.com/yewinston/Pure-MCTS-Reversi.git`
+- Clone the reposistory using:
+    - `git clone https://github.com/yewinston/Pure-MCTS-Reversi.git`
 - In a terminal, use **one** of the following commands to build the application:
     - `make` 
     - `g++ board.cpp game.cpp reversibot.cpp reversi.cpp -o reversi`
