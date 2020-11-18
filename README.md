@@ -1,6 +1,5 @@
 # Pure MCTS Reversi
-An implementation of Reversi where you can play against an AI that utilizes a [pure Monte Carlo tree search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search#Pure_Monte_Carlo_game_search) to determine the next possible move. A more difficult AI is also implemented, and utilizes a [static weighting heuristic](https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf) to determine a more informed move. Users can also simulate games between the two AIs.
-
+An implementation of Reversi where you can play against an AI that utilizes a [pure Monte Carlo tree search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search#Pure_Monte_Carlo_game_search) to determine the next possible move. A more difficult AI is also implemented that utilizes a [static weighting heuristic](https://courses.cs.washington.edu/courses/cse573/04au/Project/mini1/RUSSIA/Final_Paper.pdf) to determine a more informed move. Users can also simulate games between the two AIs.
 
 ## Pre-requisites
 - GNU compiler tools
